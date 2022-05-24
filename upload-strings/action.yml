@@ -8,5 +8,5 @@ runs:
   using: "composite"
   steps:
   - name: Update translatios
-    run: upload_strings.sh ${{ inputs.localization-file }} ${{ github.head_ref }}
+    run: upload_strings.sh ${{ inputs.localization-file }} ${{ github.head_ref || github.ref_name }}
     shell: bash
