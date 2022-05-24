@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
   - name: Update translatios
-    run: update_translations.sh ${{ inputs.localization-directory }} --branch ${{ github.head_ref || github.ref_name }} --stage-changes --unreviewed
+    run: ${{ github.action_path }}/update_translations.sh ${{ inputs.localization-directory }} --branch ${{ github.head_ref || github.ref_name }} --stage-changes --unreviewed
     shell: bash
   - name: Commit
     run: git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" \
