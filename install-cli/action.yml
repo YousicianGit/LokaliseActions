@@ -1,0 +1,6 @@
+name: 'Install Lokalise CLI'
+runs:
+  using: "composite"
+  steps:
+  - run: curl -sfL https://raw.githubusercontent.com/lokalise/lokalise-cli-2-go/master/install.sh | sh
+    shell: bash
