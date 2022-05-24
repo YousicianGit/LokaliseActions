@@ -1,7 +1,7 @@
 name: 'Upload strings'
 description: 'Uploads source strings to Lokalise for the current branch'
 inputs:
-  localization_file:
+  localization-file:
     description: The path to the source localization file.
     required: true
 runs:
