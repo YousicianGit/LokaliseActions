@@ -1,7 +1,13 @@
 name: 'Close Lokalise branch'
 description: 'Merges and deletes a Lokalise branch'
+inputs:
+  working-directory:
+    description: The directory that contains the .lokalise file.
+    default: ""
+    required: false
 runs:
   using: "composite"
   steps:
-    - run: close_branch.sh ${{ github.event.pull_request.merged }} ${{ github.head_ref }} ${{ github.base_ref }}
+    - run: ${{ github.action_path }}/close_branch.sh ${{ github.event.pull_request.merged }} ${{ github.head_ref }} ${{ github.base_ref }}
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
