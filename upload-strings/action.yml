@@ -8,6 +8,9 @@ runs:
   using: "composite"
   steps:
   - uses: YousicianGit/LokaliseActions/install-cli@main
+  - name: Install gettext
+    run: sudo apt install gettext
+    shell: bash
   - name: Update translatios
     run: ${{ github.action_path }}/upload_strings.sh ${{ inputs.localization-file }} ${{ github.head_ref || github.ref_name }}
     shell: bash
