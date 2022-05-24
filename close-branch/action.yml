@@ -1,0 +1,7 @@
+name: 'Close Lokalise branch'
+description: 'Merges and deletes a Lokalise branch'
+runs:
+  using: "composite"
+  steps:
+    - run: close_branch.sh ${{ github.event.pull_request.merged }} ${{ github.head_ref }} ${{ github.base_ref }}
+      shell: bash

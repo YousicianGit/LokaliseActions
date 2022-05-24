@@ -1,0 +1,12 @@
+name: 'Upload strings'
+description: 'Uploads source strings to Lokalise for the current branch'
+inputs:
+  localization_file:
+    description: The path to the source localization file.
+    required: true
+runs:
+  using: "composite"
+  steps:
+  - name: Update translatios
+    run: upload_strings.sh ${{ inputs.localization-file }} ${{ github.head_ref }}
+    shell: bash
