@@ -15,12 +15,19 @@ runs:
       --stage-changes \
       --unreviewed
     shell: bash
+  - name: Check for changes to commit
+    id: check_changes
+    run: git diff --name-only --cached --quiet # Returns 1 if there are staged changes
+    continue-on-error: true
+    shell: bash
   - name: Commit
+    if: steps.check_changes.outcome == 'failure'
     run: |
       git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" \
       commit -m "Updated translations" \
       --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
     shell: bash
   - name: Push
+    if: steps.check_changes.outcome == 'failure'
     run: git push origin
     shell: bash
