@@ -8,6 +8,7 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: YousicianGit/LokaliseActions/install-cli@main
     - run: ${{ github.action_path }}/close_branch.sh ${{ github.event.pull_request.merged }} ${{ github.head_ref || github.ref_name }} ${{ github.base_ref }}
       working-directory: ${{ inputs.working-directory }}
       shell: bash
