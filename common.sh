@@ -1,24 +1,6 @@
 #!/bin/bash
 set -e
 
-if [ -z "$LOKALISE_TOKEN" ]; then
-    if [ "$CI" = "true" ]; then
-        print_error_and_exit "LOKALISE_TOKEN was not set"
-    elif [ -f "$HOME/.lokalise" ]; then
-        LOKALISE_TOKEN=$(cat "$HOME/.lokalise")
-    else
-        print_error_and_exit "LOKALISE_TOKEN was not set. You can create a file at ~/.lokalise with your token in it to retrieve it automatically."
-    fi
-fi
-
-if [ -z "$LOKALISE_PROJECT" ]; then
-    if [ -f ".lokalise" ]; then
-        LOKALISE_PROJECT=$(cat .lokalise)
-    else
-        print_error_and_exit "LOKALISE_PROJECT was not set. You can create a .lokalise file in the repository to retrieve it automatically."
-    fi
-fi
-
 # Set Bash platform script is running on (mac/windows/linux).
 # BSD (Mac) and GNU (Linux & Git for Windows) core-utils implementations
 # have some differences for example in the available command line options.
@@ -88,3 +70,21 @@ sed_replace() {
         sed -i "$@"
     fi
 }
+
+if [ -z "$LOKALISE_TOKEN" ]; then
+    if [ "$CI" = "true" ]; then
+        print_error_and_exit "LOKALISE_TOKEN was not set"
+    elif [ -f "$HOME/.lokalise" ]; then
+        LOKALISE_TOKEN=$(cat "$HOME/.lokalise")
+    else
+        print_error_and_exit "LOKALISE_TOKEN was not set. You can create a file at ~/.lokalise with your token in it to retrieve it automatically."
+    fi
+fi
+
+if [ -z "$LOKALISE_PROJECT" ]; then
+    if [ -f ".lokalise" ]; then
+        LOKALISE_PROJECT=$(cat .lokalise)
+    else
+        print_error_and_exit "LOKALISE_PROJECT was not set. You can create a .lokalise file in the repository to retrieve it automatically."
+    fi
+fi

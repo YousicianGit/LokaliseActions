@@ -44,9 +44,18 @@ if [ "$MERGED" = "true" ]; then
             jq .branch.branch_id)
     fi
 
-    MERGE_PAYLOAD="{\"force_conflict_resolve_using\":\"target\", \"target_branch_id\": $TARGET_BRANCH_ID}"
-    print_green "Merging ${SOURCE_BRANCH} into ${TARGET_BRANCH}..."
+    if [ "$TARGET_BRANCH" = "master" ]; then
+        print_green "Merging ${TARGET_BRANCH} into ${SOURCE_BRANCH} to ensure no strings to missing..."
+        MERGE_PAYLOAD="{\"force_conflict_resolve_using\":\"source\", \"target_branch_id\": $SOURCE_BRANCH_ID}"
+        curl --request POST --fail \
+            --url https://api.lokalise.com/api2/projects/${LOKALISE_PROJECT}/branches/$TARGET_BRANCH_ID/merge \
+            --header 'content-type: application/json' \
+            --header "x-api-token: $LOKALISE_TOKEN" \
+            --data "$MERGE_PAYLOAD"
+    fi
 
+    print_green "Merging ${SOURCE_BRANCH} into ${TARGET_BRANCH}..."
+    MERGE_PAYLOAD="{\"force_conflict_resolve_using\":\"target\", \"target_branch_id\": $TARGET_BRANCH_ID}"
     curl --request POST --fail \
         --url https://api.lokalise.com/api2/projects/${LOKALISE_PROJECT}/branches/$SOURCE_BRANCH_ID/merge \
         --header 'content-type: application/json' \
