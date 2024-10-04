@@ -39,14 +39,14 @@ print_diff() {
     # Clean up both files. This can fail sometimes with the following error:
     # msgfilter: write to echo subprocess failed: Broken pipe
     for i in {1..5}; do
-        msgfilter --input="$DOWNLOADED_PATH" --output="$DOWNLOADED_PATH" --keep-header --sort-output echo && break ||
+        msgfilter --input="$DOWNLOADED_PATH" --output="$DOWNLOADED_PATH" --keep-header --sort-output && break ||
             print_yellow "Failed to run msgfilter"
     done
     sed_replace "/^#/d" "$DOWNLOADED_PATH"
 
     CLEAN_PO_PATH="$LOCALIZATION_FILE.clean"
     for i in {1..5}; do
-        msgfilter --input="$LOCALIZATION_FILE" --output="$CLEAN_PO_PATH" --keep-header --sort-output echo && break ||
+        msgfilter --input="$LOCALIZATION_FILE" --output="$CLEAN_PO_PATH" --keep-header --sort-output && break ||
             print_yellow "Failed to run msgfilter"
     done
     sed_replace "/^#/d" "$CLEAN_PO_PATH"
