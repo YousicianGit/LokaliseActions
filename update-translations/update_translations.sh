@@ -16,7 +16,10 @@ OPTIONS: All options are optional
         Include unreviewed translations. This should be only used for testing. If not provided, only reviewed translations will be included.
 
     --stage-changes
-        Stage changes to translation files. Used by CI to commit changes."
+        Stage changes to translation files. Used by CI to commit changes.
+
+    --async
+        Use async mode for file download. Recommended for large projects with many translations. Will be required for projects with >= 10,000 key-language pairs from June 1st, 2025."
 
 
 # Import common functions
@@ -32,6 +35,7 @@ init_options() {
     INCLUDE_UNREVIEWED=false
     STAGE_CHANGES=false
     PROJECT_PATH=""
+    USE_ASYNC=false
 
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -49,6 +53,9 @@ init_options() {
             --stage-changes)
                 STAGE_CHANGES=true
                 ;;
+            --async)
+                USE_ASYNC=true
+                ;;
         esac
         shift
     done
@@ -61,7 +68,12 @@ download_lokalise() {
         local mode="last_reviewed_only"
     fi
 
-    local command="lokalise2 file download --format po --unzip-to '$LOCALIZATION_FOLDER' --directory-prefix '%LANG_ISO%' --token '$LOKALISE_TOKEN' --filter-data $mode --project-id $LOKALISE_PROJECT"
+    local async_flag=""
+    if [ "$USE_ASYNC" = true ]; then
+        async_flag="--async"
+    fi
+
+    local command="lokalise2 file download --format po --unzip-to '$LOCALIZATION_FOLDER' --directory-prefix '%LANG_ISO%' --token '$LOKALISE_TOKEN' --filter-data $mode $async_flag --project-id $LOKALISE_PROJECT"
 
     if [ -n "$BRANCH" ]; then
         command="$command:$BRANCH"

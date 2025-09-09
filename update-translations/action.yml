@@ -4,16 +4,25 @@ inputs:
   localization-directory:
     description: The path to the localization directory. This should have directories inside for each language.
     required: true
+  use-async:
+    description: Use async mode for file download. Recommended for large projects with many translations. Required for projects with >= 10,000 key-language pairs.
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
   - uses: YousicianGit/LokaliseActions/install-cli@main
   - name: Update translatios
     run: |
+      ASYNC_FLAG=""
+      if [ "${{ inputs.use-async }}" = "true" ]; then
+        ASYNC_FLAG="--async"
+      fi
       ${{ github.action_path }}/update_translations.sh ${{ inputs.localization-directory }} \
       --branch ${{ github.head_ref || github.ref_name }} \
       --stage-changes \
-      --unreviewed
+      --unreviewed \
+      $ASYNC_FLAG
     shell: bash
   - name: Check for changes to commit
     id: check_changes
