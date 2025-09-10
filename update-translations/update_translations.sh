@@ -19,7 +19,7 @@ OPTIONS: All options are optional
         Stage changes to translation files. Used by CI to commit changes.
 
     --async
-        Use async mode for file download. Recommended for large projects with many translations. Will be required for projects with >= 10,000 key-language pairs from June 1st, 2025."
+        Use async mode for file download. Required for projects with >= 10,000 key-language pairs."
 
 
 # Import common functions
