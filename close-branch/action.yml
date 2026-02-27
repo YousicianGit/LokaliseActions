@@ -9,6 +9,16 @@ runs:
   using: "composite"
   steps:
     - uses: YousicianGit/LokaliseActions/install-cli@main
-    - run: ${{ github.action_path }}/close_branch.sh ${{ github.event.pull_request.merged }} ${{ github.head_ref || github.ref_name }} ${{ github.base_ref }}
+    - run: |
+        # Lokalise uses 'master' as the main branch for translations, so we replace github's 'main' with 'master'
+        SOURCE_BRANCH="${{ github.head_ref || github.ref_name }}"
+        if [ "$SOURCE_BRANCH" = "main" ]; then
+          SOURCE_BRANCH="master"
+        fi
+        TARGET_BRANCH="${{ github.base_ref }}"
+        if [ "$TARGET_BRANCH" = "main" ]; then
+          TARGET_BRANCH="master"
+        fi
+        ${{ github.action_path }}/close_branch.sh ${{ github.event.pull_request.merged }} $SOURCE_BRANCH $TARGET_BRANCH
       working-directory: ${{ inputs.working-directory }}
       shell: bash
