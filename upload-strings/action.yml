@@ -11,7 +11,7 @@ runs:
   - name: Install gettext
     run: sudo apt install gettext
     shell: bash
-  - name: Update translatios
+  - name: Update translations
     run: |
       # Lokalise uses 'master' as the main branch for translations, so we replace github's 'main' with 'master'
       BRANCH="${{ github.head_ref || github.ref_name }}"

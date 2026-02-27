@@ -12,7 +12,7 @@ runs:
   using: "composite"
   steps:
   - uses: YousicianGit/LokaliseActions/install-cli@main
-  - name: Update translatios
+  - name: Update translations
     run: |
       ASYNC_FLAG=""
       if [ "${{ inputs.use-async }}" = "true" ]; then
