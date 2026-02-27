@@ -19,8 +19,8 @@ MERGED=$1
 SOURCE_BRANCH=$2
 TARGET_BRANCH=$3
 
-if [ "$SOURCE_BRANCH" = "master" ]; then
-    print_error_and_exit "The master branch cannot be closed"
+if [ "$SOURCE_BRANCH" = "master" ] || [ "$SOURCE_BRANCH" = "main" ]; then
+    print_error_and_exit "The master or main branch cannot be closed"
 fi
 
 print_green "Getting ${SOURCE_BRANCH} branch..."
